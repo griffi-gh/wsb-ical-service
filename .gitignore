@@ -1,0 +1,3 @@
+/target
+/rustc-ice-*
+*.sqlite
