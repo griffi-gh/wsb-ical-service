@@ -46,12 +46,12 @@ async fn renew_internal(service: &ServiceConfig, token: &OAuthTokenPair) -> Opti
   //refresh the token
   let refresh = client
     .post(&format!("{}/token", service.oauth_endpoint))
-    .json(&[
-      ("grant_type", "refresh_token"),
-      ("refresh_token", &token.refresh_token),
-      ("client_id", &service.oauth_client_id),
-      ("client_secret", &service.oauth_client_secret),
-    ])
+    .json(&serde_json::json!({
+      "grant_type": "refresh_token",
+      "refresh_token": &token.refresh_token,
+      "client_id": &service.oauth_client_id,
+      "client_secret": &service.oauth_client_secret
+    }))
     .send().await.unwrap();
 
   //parse the JSON response, and return the new token pair
